@@ -377,21 +377,11 @@ var simple = {
   ]
 };
 
-
-var minZoomLevel = 2;
-var maxZoomLevel = 20;
-
-if (window.self !== window.top) {
-  minZoomLevel = 15;
-  maxZoomLevel = 15;
-}
-
   var map = new mapboxgl.Map({
     container: 'map',
     style: simple,
     zoom: 15,
-    maxZoom: maxZoomLevel,
-    minZoom: minZoomLevel,
+    minZoom: 2,
     center: [38.9075, -77.0351]
   });
 
