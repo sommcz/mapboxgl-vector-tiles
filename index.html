@@ -388,7 +388,7 @@ var map = new mapboxgl.Map({
 map.addControl(new mapboxgl.Navigation());
 
 //disable mousewheel zoom if iframed
-if (window.self !== window.top) {
+
   map.scrollWheelZoom.disable();
 }
 
