@@ -385,12 +385,11 @@ var map = new mapboxgl.Map({
   center: [38.9075, -77.0351]
 });
 
-map.addControl(new mapboxgl.Navigation());
-
-//disable mousewheel zoom if iframed
-
-  map.scrollWheelZoom.disable();
+if (window.self !== window.top) {
+  map.minZoom = 15;
 }
+
+map.addControl(new mapboxgl.Navigation());
 
 // initialize mapzen bug
 var mzBug = new MapzenBug({
