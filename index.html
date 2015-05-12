@@ -5,16 +5,33 @@
     <title>Maps powered by Mapbox-gl and vector PBF tiles</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
     <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.7.0/mapbox-gl.js'></script>
-    <script src="https://cdn.rawgit.com/mapzen/ui/0.1.1/components/bug/bug.js"></script>
+    <script src='//s3.amazonaws.com/assets-staging.mapzen.com/ui/components/bug/bug.min.js'></script>
     <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.7.0/mapbox-gl.css' rel='stylesheet' />
     <style>
         body { margin:0; padding:0; }
         #map { position:absolute; top:0; bottom:0; width:100%; }
+        .info {
+          position: absolute;
+          bottom: 0px;
+          right: 0px;
+          background: #fff;
+          background: rgba(255, 255, 255, 0.8);
+          margin: 0;
+          padding: 0px 5px;
+          font: 12px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
+          font-size: 11px;
+        }
     </style>
 </head>
 <body>
 
 <div id='map'></div>
+<div class='info'>
+  <a href='https://www.mapbox.com/mapbox-gl/' target='_blank'>Mapbox GL</a> |
+  © <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap contributors</a> |
+  <a href='https://mapzen.com/projects/vector-tiles' title='Tiles courtesy of Mapzen' target='_blank'>Mapzen</a>
+</div>
+
 <script>
 mapboxgl.accessToken = 'pk.eyJ1IjoiYmNhbXBlciIsImEiOiJWUmh3anY0In0.1fgSTNWpQV8-5sBjGbBzGg';
 var simple = {
@@ -391,7 +408,8 @@ map.addControl(new mapboxgl.Navigation());
 var mzBug = new MapzenBug({
   name: 'Maps using Mapbox-gl and vector PBF tiles',
   link: 'https://github.com/mapzen/mapboxgl-vector-tiles',
-  twitterShareMsg: 'Wow, what cool demo by @mapzen.'
+  tweet: 'Tangram map using @mapzen vector tiles and Mapbox GL!',
+  repo: 'https://github.com/mapzen/mapboxgl-vector-tiles/'
 });
 </script>
 
