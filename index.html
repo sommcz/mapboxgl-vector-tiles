@@ -387,6 +387,11 @@ var map = new mapboxgl.Map({
 
 map.addControl(new mapboxgl.Navigation());
 
+//disable mousewheel zoom if iframed
+if (window.self !== window.top) {
+  map.scrollWheelZoom.disable();
+}
+
 // initialize mapzen bug
 var mzBug = new MapzenBug({
   name: 'Maps using Mapbox-gl and vector PBF tiles',
