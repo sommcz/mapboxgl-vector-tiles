@@ -377,17 +377,24 @@ var simple = {
   ]
 };
 
-var map = new mapboxgl.Map({
-  container: 'map',
-  style: simple,
-  zoom: 15,
-  minZoom: 2,
-  center: [38.9075, -77.0351]
-});
+
+var minZoomLevel = 2;
+var maxZoomLevel = 20;
 
 if (window.self !== window.top) {
-  map.minZoom = 15;
+  minZoomLevel = 15;
+  maxZoomLevel = 15;
 }
+
+  var map = new mapboxgl.Map({
+    container: 'map',
+    style: simple,
+    zoom: 15,
+    maxZoom: maxZoomLevel,
+    minZoom: minZoomLevel,
+    center: [38.9075, -77.0351]
+  });
+
 
 map.addControl(new mapboxgl.Navigation());
 
