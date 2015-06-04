@@ -21,6 +21,14 @@
           font: 12px/1.5 "Helvetica Neue", Arial, Helvetica, sans-serif;
           font-size: 11px;
         }
+
+        /* For non touch devices, move control out of the way at small window widths */
+        @media (max-width: 752px) {
+          /* 767px - 15px for scrollbar */
+          .mapzen-demo-iframed .mapboxgl-ctrl-topright {
+            top: 50px;
+          }
+        }
     </style>
 </head>
 <body>
@@ -283,7 +291,7 @@ var simple = {
     "paint": {
       "line-color": "@path",
       "line-width": "@path-width",
-      "line-dasharray": [2, 2]   
+      "line-dasharray": [2, 2]
     }
   }, {
     "id": "ocean-label",
@@ -403,6 +411,10 @@ var map = new mapboxgl.Map({
 });
 
 map.addControl(new mapboxgl.Navigation());
+
+if (window.self !== window.top) {
+  document.documentElement.className += ' mapzen-demo-iframed';
+}
 
 // initialize mapzen bug
 var mzBug = new MapzenBug({
