@@ -4,9 +4,8 @@
     <meta charset='utf-8' />
     <title>Maps powered by Mapbox-gl and vector PBF tiles</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.7.0/mapbox-gl.js'></script>
-    <script src='//s3.amazonaws.com/assets-staging.mapzen.com/ui/components/bug/bug.min.js'></script>
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.7.0/mapbox-gl.css' rel='stylesheet' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.25.1/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.25.1/mapbox-gl.css' rel='stylesheet' />
     <style>
         body { margin:0; padding:0; }
         #map { position:absolute; top:0; bottom:0; width:100%; }
@@ -40,61 +39,14 @@
 </div>
 
 <script>
-mapboxgl.accessToken = 'pk.eyJ1Ijoia2F0aWVrb3dhbHNreSIsImEiOiJHR2hfdlBNIn0.GUMLsSnT-SYx4ew7b77kqw';
+mapboxgl.accessToken = 'pk.eyJ1Ijoia2F0aWVrb3dhbHNreSIsImEiOiJjaXUwOWd0YW0wMjF0MzBzYm05eWZ4ZHF2In0.MZLh-MflmMLy7aj5CIBixA';
 var simple = {
-  "version": 7,
+  "version": 8,
   "glyphs": "mapbox://fontstack/{fontstack}/{range}.pbf",
-  "constants": {
-    "@name": "{name_en}",
-    "@sans": "Open Sans Regular, Arial Unicode MS Regular",
-    "@sans-it": "Open Sans Italic, Arial Unicode MS Regular",
-    "@sans-md": "Open Sans Semibold, Arial Unicode MS Bold",
-    "@sans-bd": "Open Sans Bold, Arial Unicode MS Bold",
-    "@big-label": "#cb4b49",
-    "@medium-label": "#f27a87",
-    "@small-label": "#384646",
-    "@label-halo": "rgba(255,255,255,0.5)",
-    "@label-halo-dark": "rgba(0,0,0,0.2)",
-    "@boundary": "#aaaaaa",
-    "@boundary-light": "#bbbbbb",
-    "@land": "#ededed",
-    "@water": "#7acad0",
-    "@park": "#c2cd44",
-    "@building": "#afd3d3",
-    "@highway": "#5d6765",
-    "@major_road": "#999",
-    "@road": "#c0c4c2",
-    "@path": "#5d6765",
-    "@subway": "#ef7369",
-    "@highway-width": {
-      "base": 1.55,
-      "stops": [[4, 0.5], [8, 1.5], [20, 40]]
-    },
-    "@major_road-width": {
-      "base": 1.55,
-      "stops": [[4, 0.35], [20, 35]]
-    },
-    "@road-width": {
-      "base": 1.55,
-      "stops": [[4, 0.20], [20, 25]]
-    },
-    "@path-width": {
-      "base": 1.8,
-      "stops": [[10, 0.15], [20, 15]]
-    },
-    "@road-misc-width": {
-      "base": 1,
-      "stops": [[4, 0.25], [20, 30]]
-    },
-    "@stream-width":{
-      "base": 0.5,
-      "stops": [[4, 0.5], [10, 1.5], [20, 5]]
-    }
-  },
   "sources": {
-    "mapzen": {
+    "osm": {
       "type": "vector",
-      "tiles": ["https://tile.dev.mapzen.com/mapzen/vector/v1/all/{z}/{x}/{y}.mvt?api_key=mapzen-q5Z7Z8i"],
+      "tiles": ["https://vector.mapzen.com/osm/all/{z}/{x}/{y}.mvt?api_key=mapzen-ekzhA5x"],
       "maxzoom": 16
     }
   },
@@ -102,16 +54,16 @@ var simple = {
     "id": "background",
     "type": "background",
     "paint": {
-      "background-color": "@land"
+      "background-color": "#E3DFDF"
     }
   }, {
     "id": "water-line",
-    "source": "mapzen",
+    "source": "osm",
     "source-layer": "water",
     "type": "line",
     "filter": ["==", "$type", "LineString"],
     "paint": {
-      "line-color": "@water",
+      "line-color": "#ACD1E8",
       "line-width": {
         "base": 1.2,
         "stops": [[8, 0.5], [20, 15]]
@@ -119,26 +71,26 @@ var simple = {
     }
   }, {
     "id": "water-polygon",
-    "source": "mapzen",
+    "source": "osm",
     "source-layer": "water",
     "type": "fill",
     "filter": ["==", "$type", "Polygon"],
     "paint": {
-      "fill-color": "@water"
+      "fill-color": "#ACD1E8"
     }
   }, {
     "id": "park",
     "type": "fill",
-    "source": "mapzen",
+    "source": "osm",
     "source-layer": "landuse",
     "min-zoom": 6,
     "filter": ["in", "kind", "park", "national_park", "nature_reserve", "forest", "garden", "grass", "farm", "meadow", "playground", "golf_course", "wetland", "wood", "cemetery"],
     "paint": {
-      "fill-color": "@park"
+      "fill-color": "rgba(148,181,126,.75)"
     }
   }, {
     "id": "river",
-    "source": "mapzen",
+    "source": "osm",
     "source-layer": "water",
     "type": "line",
     "min-zoom": 6,
@@ -148,7 +100,7 @@ var simple = {
         "line-join": "round"
       },
     "paint": {
-      "line-color": "@water",
+      "line-color": "#ACD1E8",
       "line-width": {
         "base": 1.2,
         "stops": [[8, 0.75], [20, 15]]
@@ -156,17 +108,17 @@ var simple = {
     }
   }, {
     "id": "stream-etc",
-    "source": "mapzen",
+    "source": "osm",
     "source-layer": "water",
     "type": "line",
     "min-zoom": 11,
-    "filter": ["all", ["==", "$type", "LineString"], ["==", "kind", "stream", "canal"]],
+    "filter": ["all", ["==", "$type", "LineString"], ["==", "kind", "stream"]],
     "layout": {
         "line-cap": "round",
         "line-join": "round"
       },
     "paint": {
-      "line-color": "@water",
+      "line-color": "#ACD1E8",
       "line-width": {
         "base": 1.4,
         "stops": [[10, 0.5], [20, 15]]
@@ -174,7 +126,7 @@ var simple = {
     }
   }, {
       "id": "country-boundary",
-      "source": "mapzen",
+      "source": "osm",
       "source-layer": "boundaries",
       "type": "line",
       "filter": [ "all", ["==", "kind", "country"], ["!=", "maritime_boundary", true]],
@@ -184,7 +136,7 @@ var simple = {
         "line-join": "round"
       },
       "paint": {
-        "line-color": "@boundary",
+        "line-color": "#aaaaaa",
         "line-dasharray": [4, 2, 2, 1, 2],
         "line-width": {
           "base": 2,
@@ -193,7 +145,7 @@ var simple = {
         }
   }, {
       "id": "disputed-boundary",
-      "source": "mapzen",
+      "source": "osm",
       "source-layer": "boundaries",
       "type": "line",
       "filter": [ "all", ["in", "kind", "disputed", "indefinite", "indeterminate", "lease_limit", "line_of_control", "overlay_limit"]],
@@ -203,7 +155,7 @@ var simple = {
         "line-join": "round"
       },
       "paint": {
-        "line-color": "@boundary",
+        "line-color": "#aaaaaa",
         "line-dasharray": [4, 2, 2, 1, 2],
         "line-width": {
           "base": 2,
@@ -212,26 +164,7 @@ var simple = {
         }
     }, {
       "id": "state-boundary",
-      "source": "mapzen",
-      "source-layer": "boundaries",
-      "type": "line",
-      "filter": [ "all", ["in", "kind", "region", "macroregion"], ["!=", "maritime_boundary", true], ["==", "min_zoom", "2"] ],
-      "max-zoom": 8,
-      "layout": {
-        "line-cap": "round",
-        "line-join": "round"
-      },
-      "paint": {
-        "line-color": "@boundary",
-        "line-dasharray": [4, 2, 2, 1, 2],
-        "line-width": {
-          "base": 2,
-          "stops": [[1, 0.25], [7, 1.5]]
-          }
-      }
-    }, {
-      "id": "state-boundary",
-      "source": "mapzen",
+      "source": "osm",
       "source-layer": "boundaries",
       "type": "line",
       "filter": [ "all", ["in", "kind", "region", "macroregion"], ["!=", "maritime_boundary", true] ],
@@ -242,7 +175,7 @@ var simple = {
         "line-join": "round"
       },
       "paint": {
-        "line-color": "@boundary-light",
+        "line-color": "#aaaaaa",
         "line-dasharray": [4, 2, 2, 1, 2],
         "line-width": {
           "base": 2,
@@ -251,17 +184,17 @@ var simple = {
       }
     }, {
     "id": "subways",
-    "source": "mapzen",
+    "source": "osm",
     "source-layer": "roads",
     "type": "line",
     "paint": {
-      "line-color": "@subway",
+      "line-color": "#ef7369",
       "line-dasharray": [2, 1]
     },
     "filter": ["==", "kind_detail", "subway"]
   }, {
     "id": "link-tunnel",
-    "source": "mapzen",
+    "source": "osm",
     "source-layer": "roads",
     "type": "line",
     "filter": ["any",["==", "is_tunnel", true]],
@@ -270,22 +203,25 @@ var simple = {
       "line-cap": "round"
     },
     "paint": {
-      "line-color": "@building",
-      "line-width": "@road-width",
+      "line-color": "#AEB5AF",
+      "line-width": {
+          "base": 1.55,
+          "stops": [[4, 0.20], [20, 25]]
+    },
       "line-dasharray": [1, 2]
     }
   }, {
     "id": "buildings",
     "type": "fill",
-    "source": "mapzen",
+    "source": "osm",
     "source-layer": "buildings",
     "paint": {
-    "fill-outline-color": "@building",
-    "fill-color": "@land"
+    "fill-outline-color": "#DDE5DE",
+    "fill-color": "#AEB5AF"
     }
   }, {
     "id": "road",
-    "source": "mapzen",
+    "source": "osm",
     "source-layer": "roads",
     "type": "line",
     "filter": ["any",["==", "kind", "major_road"]],
@@ -294,12 +230,15 @@ var simple = {
       "line-cap": "round",
     },
     "paint": {
-      "line-color": "@major_road",
-      "line-width": "@major_road-width"
+      "line-color": "#999",
+      "line-width": {
+        "base": 1.55,
+        "stops": [[4, 0.35], [20, 35]]
+      }
     }
   }, {
     "id": "major_road",
-    "source": "mapzen",
+    "source": "osm",
     "source-layer": "roads",
     "type": "line",
     "filter": ["any",["==", "kind", "minor_road"]],
@@ -308,12 +247,15 @@ var simple = {
       "line-cap": "round",
     },
     "paint": {
-      "line-color": "@road",
-      "line-width": "@road-width"
+      "line-color": "#aaaaaa",
+      "line-width": {
+        "base": 1.55,
+        "stops": [[4, 0.20], [20, 25]]
+      }
     }
   }, {
     "id": "link-bridge",
-    "source": "mapzen",
+    "source": "osm",
     "source-layer": "roads",
     "type": "line",
     "filter": ["any",["==", "is_link", true], ["==", "is_bridge", true]],
@@ -322,12 +264,15 @@ var simple = {
       "line-cap": "round"
     },
     "paint": {
-      "line-color": "@road",
-      "line-width": "@highway-width"
+      "line-color": "#aaaaaa",
+      "line-width": {
+        "base": 1.55,
+        "stops": [[4, 0.20], [20, 25]]
+      }
     }
   }, {
     "id": "highway",
-    "source": "mapzen",
+    "source": "osm",
     "source-layer": "roads",
     "type": "line",
     "line-join": "round",
@@ -337,12 +282,15 @@ var simple = {
       "line-cap": "round"
     },
     "paint": {
-      "line-color": "@highway",
-      "line-width": "@highway-width"
+      "line-color": "#5d6765",
+      "line-width": {
+        "base": 1.55,
+        "stops": [[4, 0.20], [20, 25]]
+      }
     }
   }, {
     "id": "path",
-    "source": "mapzen",
+    "source": "osm",
     "source-layer": "roads",
     "type": "line",
     "line-join": "round",
@@ -354,13 +302,16 @@ var simple = {
     },
     "min-zoom": 12,
     "paint": {
-      "line-color": "@path",
-      "line-width": "@path-width",
+      "line-color": "#5d6765",
+      "line-width": {
+        "base": 1.8,
+        "stops": [[10, 0.15], [20, 15]]
+      },
       "line-dasharray": [2, 2]
     }
   }, {
     "id": "ocean-label",
-    "source": "mapzen",
+    "source": "osm",
     "source-layer": "water",
     "type": "symbol",
     "min-zoom": 2,
@@ -368,63 +319,64 @@ var simple = {
     "filter": ["==", "kind", "ocean"],
     "layout": {
         "text-field": "{name}",
-        "text-font": "@sans-it",
-        "text-max-size": 32,
-        "text-max-width": 14,
-        "text-letter-spacing": 0.1,
+        "text-font": ["Elementa Pro Italic"],
+        "text-max-width": 6,
+        "text-size": {
+            "stops": [[2, 18], [6, 24]]
+        },
+        "text-letter-spacing": 0.1
       },
     "paint": {
-      "text-color": "@land",
-      "text-halo-color": "@label-halo-dark",
-      "text-size": {
-          "stops": [[2, 28], [6, 32]]
-        }
+      "text-color": "#7D98A8",
+      "text-halo-color": "rgba(255,255,255,0.5)",
     }
   }, {
       "id": "other-label",
-      "source": "mapzen",
+      "source": "osm",
       "source-layer": "places",
       "filter": ["all", ["==", "$type", "Point"], ["==", "kind", "neighbourhood"]],
       "min-zoom": 12,
       "type": "symbol",
       "layout": {
         "text-field": "{name}",
-        "text-font": "@sans-md",
-        "text-max-size": 24,
+        "text-font": ["Elementa Pro Bold"],
+        "text-size": {
+          "stops": [[12, 14], [14, 16]]
+        },
         "text-max-width": 10
       },
       "paint": {
-        "text-color": "@big-label",
-        "text-halo-color": "@label-halo",
-        "text-size": {
-          "stops": [[12, 14], [20, 21]]
-        }
+        "text-color": "#39746A",
+        "text-halo-color": "rgba(255,255,255,0.5)",
+        "text-halo-width": 2,
+        "text-halo-blur": 1,
       }
     }, {
       "id": "city-label",
-      "source": "mapzen",
+      "source": "osm",
       "source-layer": "places",
-      "filter": ["all", ["==", "$type", "Point"], ["==", "kind", "locality"]],
+      "filter": ["all", ["==", "$type", "Point"], ["==", "kind", "locality"],["==", "kind_detail", "city"]],
       "min-zoom": 10,
       "max-zoom": 14,
       "type": "symbol",
       "layout": {
         "text-field": "{name}",
-        "text-font": "@sans-md",
-        "text-max-size": 24,
+        "text-font": ["Elementa Pro Bold Italic"],
+        "text-size": {
+          "stops": [[8, 14], [12, 21]]
+        },
         "text-max-width": 10,
         "text-letter-spacing": 0.1,
       },
       "paint": {
-        "text-color": "@small-label",
-        "text-halo-color": "@label-halo",
-        "text-size": {
-          "stops": [[8, 14], [12, 21]]
-        }
+        "text-color": "#384646",
+        "text-halo-color": "rgba(255,255,255,0.5)",
+        "text-halo-width": 1.5,
+        "text-halo-blur": .85,
       }
     }, {
       "id": "state-label",
-      "source": "mapzen",
+      "source": "osm",
       "source-layer": "places",
       "filter": ["all", ["==", "$type", "Point"], ["==", "kind", "region"]],
       "min-zoom": 6,
@@ -432,55 +384,52 @@ var simple = {
       "type": "symbol",
       "layout": {
         "text-field": "{name}",
-        "text-font": "@sans",
-        "text-max-size": 28,
+        "text-font": ["Elementa Pro Regular"],
+        "text-size": {
+        "stops": [[7, 18], [10, 30]]
+      },
         "text-max-width": 8
       },
       "paint": {
-        "text-color": "@medium-label",
-        "text-halo-color": "@label-halo",
-        "text-size": {
-        "stops": [[7, 18], [10, 30]]
-        }
+        "text-color": "#f27a87",
+        "text-halo-color": "rgba(255,255,255,0.5)",
       }
     }, {
       "id": "country-label",
-      "source": "mapzen",
+      "type": "symbol",
+      "source": "osm",
       "source-layer": "places",
+      "interactive": true,
       "filter": ["all", ["==", "$type", "Point"], ["==", "kind", "country"]],
       "max-zoom": 7,
-      "type": "symbol",
       "layout": {
         "text-field": "{name}",
-        "text-font": "@sans-md",
-        "text-max-size": 28,
-        "text-max-width": 4
+        "text-transform": "uppercase",
+        "text-font": ["Elementa Pro Bold Italic"],
+        "text-size": {
+          "stops": [[2, 14], [6, 21]]
+        },
+        "text-max-width": 2
       },
       "paint": {
-        "text-color": "@big-label",
-        "text-halo-color": "@label-halo",
-        "text-size": {
-          "stops": [[2, 24], [6, 21]]
-        }
+        "text-color": "#39746A",
+        "text-halo-color": "rgba(255,255,255,0.5)",
+        "text-halo-width": 2,
+        "text-halo-blur": 1,
       }
     }
   ]
 };
+
   var map = new mapboxgl.Map({
     container: 'map',
     style: simple,
-    zoom: 15,
+    zoom: 14,
     minZoom: 2,
-    center: [38.9075, -77.0351]
+    center: [40.7128, -74.0059]
   });
 map.addControl(new mapboxgl.Navigation());
-// initialize mapzen bug
-var mzBug = new MapzenBug({
-  name: 'Maps using Mapbox-GL and Mapzen vector tiles',
-  link: 'https://github.com/mapzen/mapboxgl-vector-tiles',
-  tweet: 'Map using @mapzen vector tiles and Mapbox GL!',
-  repo: 'https://github.com/mapzen/mapboxgl-vector-tiles/'
-});
+
 </script>
 
 </body>
