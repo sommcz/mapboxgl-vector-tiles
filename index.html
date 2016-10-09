@@ -4,8 +4,8 @@
     <meta charset='utf-8' />
     <title>Maps powered by Mapbox-gl and vector PBF tiles</title>
     <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.7.0/mapbox-gl.js'></script>
-    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.7.0/mapbox-gl.css' rel='stylesheet' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.25.1/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.25.1/mapbox-gl.css' rel='stylesheet' />
     <style>
         body { margin:0; padding:0; }
         #map { position:absolute; top:0; bottom:0; width:100%; }
@@ -41,66 +41,20 @@
 <script>
 mapboxgl.accessToken = 'pk.eyJ1Ijoia2F0aWVrb3dhbHNreSIsImEiOiJHR2hfdlBNIn0.GUMLsSnT-SYx4ew7b77kqw';
 var simple = {
-  "version": 7,
-  "glyphs": "mapbox://fontstack/{fontstack}/{range}.pbf",
-  "constants": {
-    "@sans": "Elementa Pro Regular",
-    "@sans-it": "Elementa Pro Italic",
-    "@sans-md": "Elementa Pro Bold",
-    "@sans-bd": "Elementa Pro Bold Italic",
-    "@big-label": "#39746A",
-    "@medium-label": "#f27a87",
-    "@small-label": "#384646",
-    "@label-halo": "rgba(255,255,255,0.5)",
-    "@label-halo-dark": "rgba(0,0,0,0.2)",
-    "@boundary": "#aaaaaa",
-    "@boundary-light": "#bbbbbb",
-    "@land": "#E3DFDF",
-    "@water": "#ACD1E8",
-    "@park": "rgba(148,181,126,.75)",
-    "@building": "#AEB5AF",
-    "@highway": "#5d6765",
-    "@major_road": "#999",
-    "@road": "#c0c4c2",
-    "@path": "#5d6765",
-    "@subway": "#ef7369",
-    "@highway-width": {
-      "base": 1.55,
-      "stops": [[4, 0.5], [8, 1.5], [20, 40]]
-    },
-    "@major_road-width": {
-      "base": 1.55,
-      "stops": [[4, 0.35], [20, 35]]
-    },
-    "@road-width": {
-      "base": 1.55,
-      "stops": [[4, 0.20], [20, 25]]
-    },
-    "@path-width": {
-      "base": 1.8,
-      "stops": [[10, 0.15], [20, 15]]
-    },
-    "@road-misc-width": {
-      "base": 1,
-      "stops": [[4, 0.25], [20, 30]]
-    },
-    "@stream-width":{
-      "base": 0.5,
-      "stops": [[4, 0.5], [10, 1.5], [20, 5]]
-    }
-  },
+  "version": 8,
   "sources": {
     "mapzen": {
       "type": "vector",
-      "tiles": ["https://tile.dev.mapzen.com/mapzen/vector/v1/all/{z}/{x}/{y}.mvt?api_key=mapzen-q5Z7Z8i"],
+      "tiles": ["https://tile.dev.mapzen.com/mapzen/vector/v1/all/{z}/{x}/{y}.mvt?api_key=vector-tiles-LM25tq4"],
       "maxzoom": 16
     }
   },
+  "glyphs": "mapbox://fontstack/{fontstack}/{range}.pbf",
   "layers": [{
     "id": "background",
     "type": "background",
     "paint": {
-      "background-color": "@land"
+      "background-color": "#E3DFDF"
     }
   }, {
     "id": "water-line",
@@ -109,7 +63,7 @@ var simple = {
     "type": "line",
     "filter": ["==", "$type", "LineString"],
     "paint": {
-      "line-color": "@water",
+      "line-color": "#ACD1E8",
       "line-width": {
         "base": 1.2,
         "stops": [[8, 0.5], [20, 15]]
@@ -122,7 +76,7 @@ var simple = {
     "type": "fill",
     "filter": ["==", "$type", "Polygon"],
     "paint": {
-      "fill-color": "@water"
+      "fill-color": "#ACD1E8"
     }
   }, {
     "id": "park",
@@ -132,7 +86,7 @@ var simple = {
     "min-zoom": 6,
     "filter": ["in", "kind", "park", "national_park", "nature_reserve", "forest", "garden", "grass", "farm", "meadow", "playground", "golf_course", "wetland", "wood", "cemetery"],
     "paint": {
-      "fill-color": "@park"
+      "fill-color": "rgba(148,181,126,.75)"
     }
   }, {
     "id": "river",
@@ -146,7 +100,7 @@ var simple = {
         "line-join": "round"
       },
     "paint": {
-      "line-color": "@water",
+      "line-color": "#ACD1E8",
       "line-width": {
         "base": 1.2,
         "stops": [[8, 0.75], [20, 15]]
@@ -158,13 +112,13 @@ var simple = {
     "source-layer": "water",
     "type": "line",
     "min-zoom": 11,
-    "filter": ["all", ["==", "$type", "LineString"], ["==", "kind", "stream", "canal"]],
+    "filter": ["all", ["==", "$type", "LineString"], ["==", "kind", "stream"]],
     "layout": {
         "line-cap": "round",
         "line-join": "round"
       },
     "paint": {
-      "line-color": "@water",
+      "line-color": "#ACD1E8",
       "line-width": {
         "base": 1.4,
         "stops": [[10, 0.5], [20, 15]]
@@ -182,7 +136,7 @@ var simple = {
         "line-join": "round"
       },
       "paint": {
-        "line-color": "@boundary",
+        "line-color": "#aaaaaa",
         "line-dasharray": [4, 2, 2, 1, 2],
         "line-width": {
           "base": 2,
@@ -201,32 +155,13 @@ var simple = {
         "line-join": "round"
       },
       "paint": {
-        "line-color": "@boundary",
+        "line-color": "#aaaaaa",
         "line-dasharray": [4, 2, 2, 1, 2],
         "line-width": {
           "base": 2,
           "stops": [[1, 0.5], [7, 3]]
           }
         }
-    }, {
-      "id": "state-boundary",
-      "source": "mapzen",
-      "source-layer": "boundaries",
-      "type": "line",
-      "filter": [ "all", ["in", "kind", "region", "macroregion"], ["!=", "maritime_boundary", true], ["==", "min_zoom", "2"] ],
-      "max-zoom": 8,
-      "layout": {
-        "line-cap": "round",
-        "line-join": "round"
-      },
-      "paint": {
-        "line-color": "@boundary",
-        "line-dasharray": [4, 2, 2, 1, 2],
-        "line-width": {
-          "base": 2,
-          "stops": [[1, 0.25], [7, 1.5]]
-          }
-      }
     }, {
       "id": "state-boundary",
       "source": "mapzen",
@@ -240,7 +175,7 @@ var simple = {
         "line-join": "round"
       },
       "paint": {
-        "line-color": "@boundary-light",
+        "line-color": "#aaaaaa",
         "line-dasharray": [4, 2, 2, 1, 2],
         "line-width": {
           "base": 2,
@@ -253,7 +188,7 @@ var simple = {
     "source-layer": "roads",
     "type": "line",
     "paint": {
-      "line-color": "@subway",
+      "line-color": "#ef7369",
       "line-dasharray": [2, 1]
     },
     "filter": ["==", "kind_detail", "subway"]
@@ -268,8 +203,11 @@ var simple = {
       "line-cap": "round"
     },
     "paint": {
-      "line-color": "@building",
-      "line-width": "@road-width",
+      "line-color": "#AEB5AF",
+      "line-width": {
+          "base": 1.55,
+          "stops": [[4, 0.20], [20, 25]]
+    },
       "line-dasharray": [1, 2]
     }
   }, {
@@ -279,7 +217,7 @@ var simple = {
     "source-layer": "buildings",
     "paint": {
     "fill-outline-color": "#DDE5DE",
-    "fill-color": "@building"
+    "fill-color": "#AEB5AF"
     }
   }, {
     "id": "road",
@@ -292,8 +230,11 @@ var simple = {
       "line-cap": "round",
     },
     "paint": {
-      "line-color": "@major_road",
-      "line-width": "@major_road-width"
+      "line-color": "#999",
+      "line-width": {
+        "base": 1.55,
+        "stops": [[4, 0.35], [20, 35]]
+      }
     }
   }, {
     "id": "major_road",
@@ -306,8 +247,11 @@ var simple = {
       "line-cap": "round",
     },
     "paint": {
-      "line-color": "@road",
-      "line-width": "@road-width"
+      "line-color": "#aaaaaa",
+      "line-width": {
+        "base": 1.55,
+        "stops": [[4, 0.20], [20, 25]]
+      }
     }
   }, {
     "id": "link-bridge",
@@ -320,8 +264,11 @@ var simple = {
       "line-cap": "round"
     },
     "paint": {
-      "line-color": "@road",
-      "line-width": "@highway-width"
+      "line-color": "#aaaaaa",
+      "line-width": {
+        "base": 1.55,
+        "stops": [[4, 0.20], [20, 25]]
+      }
     }
   }, {
     "id": "highway",
@@ -335,8 +282,11 @@ var simple = {
       "line-cap": "round"
     },
     "paint": {
-      "line-color": "@highway",
-      "line-width": "@highway-width"
+      "line-color": "#5d6765",
+      "line-width": {
+        "base": 1.55,
+        "stops": [[4, 0.20], [20, 25]]
+      }
     }
   }, {
     "id": "path",
@@ -352,8 +302,11 @@ var simple = {
     },
     "min-zoom": 12,
     "paint": {
-      "line-color": "@path",
-      "line-width": "@path-width",
+      "line-color": "#5d6765",
+      "line-width": {
+        "base": 1.8,
+        "stops": [[10, 0.15], [20, 15]]
+      },
       "line-dasharray": [2, 2]
     }
   }, {
@@ -366,17 +319,16 @@ var simple = {
     "filter": ["==", "kind", "ocean"],
     "layout": {
         "text-field": "{name}",
-        "text-font": "@sans-it",
-        "text-max-size": 24,
+        "text-font": ["Open Sans Italic","Arial Unicode MS Italic"],
         "text-max-width": 6,
+        "text-size": {
+            "stops": [[2, 18], [6, 24]]
+        },
         "text-letter-spacing": 0.1
       },
     "paint": {
       "text-color": "#7D98A8",
-      "text-halo-color": "@label-halo-dark",
-      "text-size": {
-          "stops": [[2, 18], [6, 24]]
-        }
+      "text-halo-color": "rgba(255,255,255,0.5)",
     }
   }, {
       "id": "other-label",
@@ -387,17 +339,15 @@ var simple = {
       "type": "symbol",
       "layout": {
         "text-field": "{name}",
-        "text-font": "@sans-md",
-        "text-max-size": 16,
-        "text-max-width": 10
-      },
-      "paint": {
-        "text-color": "@big-label",
-        "text-halo-color": "@label-halo",
+        "text-font": ["Open Sans Bold","Arial Unicode MS Bold"],
         "text-size": {
           "stops": [[12, 14], [14, 16]]
         },
-        "text-halo-color": "rgba(255,255,255,0.8)",
+        "text-max-width": 10
+      },
+      "paint": {
+        "text-color": "#39746A",
+        "text-halo-color": "rgba(255,255,255,0.5)",
         "text-halo-width": 2,
         "text-halo-blur": 1,
       }
@@ -410,19 +360,17 @@ var simple = {
       "max-zoom": 14,
       "type": "symbol",
       "layout": {
-        "text-field": "{name}",
-        "text-font": "@sans-bd",
-        "text-max-size": 24,
+        "text-field": "{name:en}",
+        "text-font": ["Open Sans Bold Italic","Arial Unicode MS Bold"],
+        "text-size": {
+          "stops": [[8, 14], [12, 21]]
+        },
         "text-max-width": 10,
         "text-letter-spacing": 0.1,
       },
       "paint": {
-        "text-color": "@small-label",
-        "text-halo-color": "@label-halo",
-        "text-size": {
-          "stops": [[8, 14], [12, 21]]
-        },
-        "text-halo-color": "rgba(255,255,255,1)",
+        "text-color": "#384646",
+        "text-halo-color": "rgba(255,255,255,0.5)",
         "text-halo-width": 1.5,
         "text-halo-blur": .85,
       }
@@ -436,16 +384,15 @@ var simple = {
       "type": "symbol",
       "layout": {
         "text-field": "{name}",
-        "text-font": "@sans",
-        "text-max-size": 28,
+        "text-font": ["Open Sans Regular","Arial Unicode MS Regular"],
+        "text-size": {
+        "stops": [[7, 18], [10, 30]]
+      },
         "text-max-width": 8
       },
       "paint": {
-        "text-color": "@medium-label",
-        "text-halo-color": "@label-halo",
-        "text-size": {
-        "stops": [[7, 18], [10, 30]]
-        }
+        "text-color": "#f27a87",
+        "text-halo-color": "rgba(255,255,255,0.5)",
       }
     }, {
       "id": "country-label",
@@ -458,29 +405,28 @@ var simple = {
       "layout": {
         "text-field": "{name}",
         "text-transform": "uppercase",
-        "text-font": "@sans-bd",
-        "text-max-size": 16,
-        "text-max-width": 2
-      },
-      "paint": {
-        "text-color": "@big-label",
-        "text-halo-color": "@label-halo",
+        "text-font": ["Open Sans Bold Italic","Arial Unicode MS Bold"],
         "text-size": {
           "stops": [[2, 14], [6, 21]]
         },
-        "text-halo-color": "rgba(255,255,255,0.8)",
+        "text-max-width": 2
+      },
+      "paint": {
+        "text-color": "#39746A",
+        "text-halo-color": "rgba(255,255,255,0.5)",
         "text-halo-width": 2,
         "text-halo-blur": 1,
       }
     }
   ]
 };
+
   var map = new mapboxgl.Map({
     container: 'map',
     style: simple,
     zoom: 14,
     minZoom: 2,
-    center: [40.7128, -74.0059]
+    center: [-74.0059, 40.7128]
   });
 map.addControl(new mapboxgl.Navigation());
 
